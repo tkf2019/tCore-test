@@ -7,6 +7,7 @@ OBJDUMP=$(PREFIX)objdump
 STATIC_TESTCASES = $(shell cat static_testcases.txt)
 DYAMIC_TESTCASES = $(shell cat dynamic_testcases.txt)
 OUTPUT_TESTCASES = $(addprefix build/,  $(subst -,_,$(notdir $(basename $(STATIC_TESTCASES)))))
+UINTR_TESTCASES = $(shell cat uintr_testcases.txt)
 
 CFLAGS += -pipe -std=c99 -D_POSIX_C_SOURCE=200809L -Wall -Wno-unused-function -Wno-missing-braces -Wno-unused -Wno-overflow
 CFLAGS += -Wno-unknown-pragmas -fno-builtin -frounding-math
@@ -68,12 +69,11 @@ src/functional/tls_align.out: src/functional/tls_align.c src/functional/tls_alig
 test:
 	@echo $(STATIC_TESTCASES)
 
-build_static: $(STATIC_TESTCASES)
+build_static: $(STATIC_TESTCASES) $(UINTR_TESTCASES)
 
 build_dynamic: $(DSO_SOS) $(DYAMIC_TESTCASES)
 	mkdir -p build
 	cp ./libc.so ./build/libc.so
-
 
 dynamic_test: $(DSO_SOS) $(DIR)$(TARGET_NAME).c
 	$(CC) $(LDFLAGS) $(CFLAGS) $(DIR)$(TARGET_NAME).c -DDYNAMIC $(COMMON_SRCS) -Lsrc/functional -Lsrc/regression -ltls_align_dso -ltls_init_dso -ldlopen_dso -ltls_get_new-dtv_dso -Wl,-rpath ./ -o dynamic.dout

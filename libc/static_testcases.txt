@@ -107,4 +107,3 @@ src/regression/syscall-sign-extend.out
 src/regression/uselocale-0.out
 src/regression/wcsncpy-read-overflow.out
 src/regression/wcsstr-false-negative.out
-src/hello.out
