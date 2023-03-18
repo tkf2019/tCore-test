@@ -40,6 +40,8 @@ clean:
 	find src -name '*.out' | xargs -t rm
 	find src -name '*.dout' | xargs -t rm
 
+$(UINTR_TESTCASES): src/uintr/uintr.h src/uintr/uintr.S
+
 # 静态测例
 %.out : %.c
 	$(CC) $^ $(COMMON_SRCS) $(CFLAGS) -static -o $@
