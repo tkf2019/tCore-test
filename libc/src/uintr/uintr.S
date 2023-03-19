@@ -12,7 +12,6 @@ uintrvec:
     
     # save the user registers in TRAPFRAME
     sd ra, 0(sp)
-    sd sp, 8(sp)
     sd gp, 16(sp)
     sd tp, 24(sp)
     sd t0, 32(sp)
@@ -53,7 +52,6 @@ uintrvec:
 uintrret:
     # restore the user registers in TRAPFRAME
     ld ra, 0(sp)
-    ld sp, 8(sp)
     ld gp, 16(sp)
     ld tp, 24(sp)
     ld t0, 32(sp)
