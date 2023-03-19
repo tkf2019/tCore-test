@@ -253,10 +253,13 @@ static uint64_t __register_receiver(void* handler) {
   csr_set(CSR_USTATUS, USTATUS_UIE);
   csr_set(CSR_UIE, MIE_USIE);
 
+  int ret;
+  ret = __syscall0(__NR_uintr_register_receiver);
+
   // enable UINTC
   uipi_activate();
 
-  return __syscall0(__NR_uintr_register_receiver);
+  return ret;
 }
 
 #define uintr_register_receiver(handler) __register_receiver(handler)
