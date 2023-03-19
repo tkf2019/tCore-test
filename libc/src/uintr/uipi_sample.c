@@ -19,6 +19,21 @@ uint64_t uintr_handler(struct __uintr_frame *ui_frame, uint64_t irqs) {
   return 0;
 }
 
+void *sender_thread(void *arg) {
+  int uipi_index;
+
+  uipi_index = uintr_register_sender(uintr_fd);
+  if (uipi_index < 0) {
+    printf("Sending IPI from sender thread\n");
+    exit(EXIT_FAILURE);
+  }
+
+  printf("Sending IPI from sender thread\n");
+  uipi_send(uipi_index);
+
+  return NULL;
+}
+
 int main() {
   printf("Basic test: uipi_sample\n");
 
@@ -35,6 +50,20 @@ int main() {
     printf("Interrupt vector allocation error\n");
     exit(EXIT_FAILURE);
   }
+
+  uintr_fd = ret;
+
+  printf("Receiver enabled interrupts\n");
+
+  if (pthread_create(&pt, NULL, &sender_thread, NULL)) {
+    printf("Error creating sender thread\n");
+    exit(EXIT_FAILURE);
+  }
+
+  while (!uintr_received) sleep(1);
+
+  pthread_join(pt, NULL);
+  close(uintr_fd);
 
   printf("Success\n");
   exit(EXIT_SUCCESS);
