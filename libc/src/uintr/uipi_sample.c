@@ -5,7 +5,7 @@
 
 #include "uintr.h"
 
-unsigned int uintr_received;
+volatile unsigned int uintr_received;
 unsigned int uintr_fd;
 
 uint64_t uintr_handler(struct __uintr_frame *ui_frame, uint64_t irqs) {
@@ -60,7 +60,8 @@ int main() {
     exit(EXIT_FAILURE);
   }
 
-  while (!uintr_received) sleep(1);
+  while (!uintr_received)
+    ;
 
   pthread_join(pt, NULL);
   close(uintr_fd);

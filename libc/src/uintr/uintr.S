@@ -80,6 +80,7 @@ uintrret:
     ld t3, 216(sp)
     ld t4, 224(sp)
     ld t5, 232(sp)
+    ld t6, 240(sp)
 
     # restore stack pointer
     addi sp, sp, 248
