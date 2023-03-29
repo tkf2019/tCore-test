@@ -230,9 +230,9 @@ struct __uintr_frame {
 extern char uintrvec[];
 extern char uintrret[];
 
-#define __NR_uintr_register_receiver 449
-#define __NR_uintr_create_fd 451
-#define __NR_uintr_register_sender 452
+#define __NR_uintr_register_receiver 451
+#define __NR_uintr_create_fd 453
+#define __NR_uintr_register_sender 454
 
 extern void __handler_entry(struct __uintr_frame* frame, void* handler) {
   uint64_t irqs = uipi_read();
