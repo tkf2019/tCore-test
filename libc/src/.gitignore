@@ -2,3 +2,5 @@
 *.out
 *.dout
 *.dbg
+
+*.S
